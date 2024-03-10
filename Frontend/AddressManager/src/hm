@@ -1,0 +1,88 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+const Home = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await fetch("/api/todos");
+        const address = await res.json();
+        setData(address);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    getData();
+  }, []);
+
+  const deleteAddress = async (id) => {
+    try {
+      const res = await fetch(`/api/todos/${id}`, {
+        method: "DELETE",
+      });
+      if (res.status === 200) {
+        setData(data.filter((address) => address._id !== id));
+      } else {
+        console.error("Failed to delete address");
+      }
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
+  };
+
+  return (
+    <div className="w-full max-w-2xl mx-auto flex justify-center items-center h-screen">
+      <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3  border border-white-500">
+        <div className="flex justify-between">
+          <h1 className="text-3xl font-bold mb-4 text-white">
+            Address Manager
+          </h1>
+          <Link to="/addressManager">
+            <button className="bg-blue-500 text-white rounded-md p-2 my-2">
+              Add Address
+            </button>
+          </Link>
+        </div>
+        <ul className="mt-4">
+          {data.map((address) => (
+            <li
+              key={address._id}
+              className="border flex justify-between border-gray-300 rounded-md p-2 mb-2 text-black bg-gray-200"
+            >
+              <p>
+                {address.streetAddress},{address.city}, {address.state}{" "}
+                {address.zipCode}
+              </p>
+              <div className="flex">
+                <Link to={`/edit/${address._id}`}>
+                  <button
+                    className="bg-yellow-500 text-white rounded-md px-4 py-1 mt-2 mr-2"
+                  >
+                    Edit
+                  </button>
+                </Link>
+                <button
+                  onClick={() => {
+                    const confirmation = window.confirm(
+                      "Are you sure you want to delete this address?"
+                    );
+                    if (confirmation) {
+                      deleteAddress(address._id);
+                    }
+                  }}
+                  className="bg-red-500 text-white rounded-md px-4 py-1 mt-2"
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
