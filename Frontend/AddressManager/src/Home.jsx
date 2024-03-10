@@ -33,8 +33,8 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex justify-center items-center h-screen">
-      <div className="w-full max-w-2xl mx-auto border border-white-500 p-5 rounded-lg">
+    // <div className="w-full max-w-2xl mx-auto flex justify-center items-center h-screen">
+      <div className="w-full md:mt-20 max-w-2xl mx-auto border border-white-500 p-5 rounded-lg">
         <div className="flex justify-between">
           <h1 className="text-3xl font-bold mb-4 text-white">
             Address Manager
@@ -49,7 +49,7 @@ const Home = () => {
           {data.map((address) => (
             <div
               key={address._id}
-              className="relative border border-gray-300 rounded-lg p-4 bg-gray-200 overflow-hidden transition duration-300 transform hover:scale-105"
+              className="relative border border-gray-300 rounded-lg p-4 bg-gray-200 overflow-hidden transition duration-300 transform hover:scale-105 sm:w-80 md:w-auto"
             >
               <p className="text-lg font-semibold mb-2">{address.streetAddress}</p>
               <p>{address.city}, {address.state} {address.zipCode}</p>
@@ -77,7 +77,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-    </div>
+    // </div>
   );
 };
 
