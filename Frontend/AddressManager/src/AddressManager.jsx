@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 
@@ -33,6 +33,13 @@ const AddressManager = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic form validation
+    if (!formData.streetAddress || !formData.city || !formData.state || !formData.zipCode) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     try {
       // Send form data to backend
       const response = await axios.post('/api/todos', formData);

@@ -36,7 +36,7 @@ const EditPage = () => {
       [name]: value
     }));
   };
-  
+
   const handleConfirmation = () => {
     // Clear form fields
     setFormData({
@@ -52,6 +52,13 @@ const EditPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic form validation
+    if (!formData.streetAddress || !formData.city || !formData.state || !formData.zipCode) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     try {
       const response = await axios.put(`/api/todos/${id}`, formData);
       console.log(response.data);
